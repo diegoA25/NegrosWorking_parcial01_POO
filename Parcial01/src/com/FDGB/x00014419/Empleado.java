@@ -28,9 +28,11 @@ abstract class Empleado {
     }
 
     public void addDocumento(Documento a){
+        documentos.add(a);
     }
 
     public void removeDocumento(String a){
+
     }
 
     public double getSalario() {
