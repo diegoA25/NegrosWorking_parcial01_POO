@@ -32,11 +32,7 @@ abstract class Empleado {
     }
 
     public void removeDocumento(String a){
-        for (Documento aux: documentos) {
-            if(aux.getNombre().equals(a)){
-                documentos.remove(aux);
-            }
-        }
+        documentos.removeIf(s -> (s.getNombre().equals(a)));
     }
 
     public double getSalario() {
