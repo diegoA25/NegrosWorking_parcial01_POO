@@ -105,10 +105,12 @@ public class Main {
                             }
                             break;
                         case 2:
-                            JOptionPane.showInputDialog(null, "Escribe la información del empleado a despedir: ");
+                            nombre = JOptionPane.showInputDialog(null, "Escribe el nombre del Empleado a despedir: ");
+                            empresa.quitEmpleado(nombre);
                             break;
                         case 3:
                             JOptionPane.showMessageDialog(null, "Lista de empleados: ");
+                            
                             break;
                         case 4:
                             JOptionPane.showMessageDialog(null, "Calculando sueldo: ");
