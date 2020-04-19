@@ -110,13 +110,13 @@ public class Main {
                             break;
                         case 3:
                             JOptionPane.showMessageDialog(null, "Lista de empleados: ");
-                            
+
                             break;
                         case 4:
                             JOptionPane.showMessageDialog(null, "Calculando sueldo: ");
                             break;
                         case 5:
-                            JOptionPane.showMessageDialog(null, "Mostrando totales: ");
+                            JOptionPane.showMessageDialog(null, CalculadoraImpuestos.mostrarTotales());
                             break;
                         case 0:
                             JOptionPane.showMessageDialog(null, "Saliendo....");

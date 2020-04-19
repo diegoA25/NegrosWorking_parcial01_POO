@@ -10,7 +10,7 @@ public final class CalculadoraImpuestos {
 
     //funcion sin excepciones
     //si se repite el calculo de un empleado es como que si se le volviera a pagar
-    public final double calcularPago(Empleado a){
+    public static double calcularPago(Empleado a){
         //Servicio profesional
         if(a instanceof ServicioProfesional){
             double renta = 0.1f * a.getSalario();
@@ -43,9 +43,9 @@ public final class CalculadoraImpuestos {
     }
 
 
-    public final String mostrarTotales(){
-        return "Total de ISSS: " + totalISSS +
-                "Total de AFP: " + totalAFP +
+    public static String mostrarTotales(){
+        return "Total de ISSS: " + totalISSS +"\n" +
+                "Total de AFP: " + totalAFP + "\n" +
                 "Total de Renta: " + totalRenta;
     }
 }
