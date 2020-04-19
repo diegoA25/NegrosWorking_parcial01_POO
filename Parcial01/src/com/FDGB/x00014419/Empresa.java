@@ -25,7 +25,11 @@ public class Empresa{
         planilla.add(empleado);
     }
     public void quitEmpleado(String nombre){
-
+        for (Empleado aux: planilla) {
+            if(aux.getNombre().equals(nombre)){
+                planilla.remove(aux);
+            }
+        }
 
     }
 }

@@ -8,7 +8,7 @@ public class Main {
         boolean continuar = false;
         Byte op = 0, opdocs = 0;
         boolean verificacion = false;
-        String nombre = "\0", puesto = " ", enterprise = " ", number = " ", document = " ", eliminardocs = " ";
+        String nombre = "\0", puesto = " ", enterprise = " ", number = " ", document = " ", eliminardocs = " ", tipodocument = " ";
         double salario = 0.00;
         int months = 0, extensions = 0;
 
@@ -33,7 +33,16 @@ public class Main {
                                         do {
                                             opdocs = Byte.parseByte(JOptionPane.showInputDialog(null, "1. Agregar Documento. \n 2. Eliminar Documento. \n 3. Salir. \n Opcion: "));
                                             if (opdocs == 1) {
-                                                document = JOptionPane.showInputDialog(null, "Digite su documento de identidad: ");
+                                                tipodocument = JOptionPane.showInputDialog(null, "Digite tipo de documento (Dui, Nit, Licencia): ");
+                                                if(tipodocument.equalsIgnoreCase("Dui")){
+                                                    document = JOptionPane.showInputDialog(null, "DUI: ");
+                                                }
+                                                else if(tipodocument.equalsIgnoreCase("Nit")){
+                                                    document = JOptionPane.showInputDialog(null, "NIT: ");
+                                                }
+                                                else if(tipodocument.equalsIgnoreCase("Licencia")){
+                                                    document = JOptionPane.showInputDialog(null, "Licencia: ");
+                                                }
                                                 number = JOptionPane.showInputDialog(null, "Digite su numero: ");
                                                 Documento docs = new Documento(document, number);
                                                 square.addDocumento(docs);
@@ -53,11 +62,20 @@ public class Main {
                                         do {
                                             opdocs = Byte.parseByte(JOptionPane.showInputDialog(null, "1. Agregar Documento. \n 2. Eliminar Documento. \n 3. Salir. \n Opcion: "));
                                             if (opdocs == 1) {
-                                                document = JOptionPane.showInputDialog(null, "Digite su documento de identidad: ");
+                                                tipodocument = JOptionPane.showInputDialog(null, "Digite tipo de documento (Dui, Nit, Licencia): ");
+                                                if(tipodocument.equalsIgnoreCase("Dui")){
+                                                    document = JOptionPane.showInputDialog(null, "DUI: ");
+                                                }
+                                                else if(tipodocument.equalsIgnoreCase("Nit")){
+                                                    document = JOptionPane.showInputDialog(null, "NIT: ");
+                                                }
+                                                else if(tipodocument.equalsIgnoreCase("Licencia")){
+                                                    document = JOptionPane.showInputDialog(null, "Licencia: ");
+                                                }
                                                 number = JOptionPane.showInputDialog(null, "Digite su numero: ");
                                                 Documento docs = new Documento(document, number);
                                                 job.addDocumento(docs);
-                                                
+
                                             } else if (opdocs == 2) {
                                                 eliminardocs = JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar: ");
                                                 job.removeDocumento(eliminardocs);
