@@ -8,7 +8,7 @@ public class Main {
         boolean continuar = false;
         Byte op = 0, opdocs = 0;
         boolean verificacion = false;
-        String nombre = "\0", puesto = " ", enterprise = " ", number = " ", document = " ";
+        String nombre = "\0", puesto = " ", enterprise = " ", number = " ", document = " ", eliminardocs = " ";
         double salario = 0.00;
         int months = 0, extensions = 0;
 
@@ -30,26 +30,42 @@ public class Main {
                                     if(puesto.equalsIgnoreCase("Plaza Fija")){
                                         extensions = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite la extension: "));
                                         PlazaFija square = new PlazaFija(nombre, puesto, salario, extensions);
+                                        do {
+                                            opdocs = Byte.parseByte(JOptionPane.showInputDialog(null, "1. Agregar Documento. \n 2. Eliminar Documento. \n 3. Salir. \n Opcion: "));
+                                            if (opdocs == 1) {
+                                                document = JOptionPane.showInputDialog(null, "Digite su documento de identidad: ");
+                                                number = JOptionPane.showInputDialog(null, "Digite su numero: ");
+                                                Documento docs = new Documento(document, number);
+                                                square.addDocumento(docs);
+
+                                            } else if (opdocs == 2) {
+                                                eliminardocs = JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar: ");
+                                                square.removeDocumento(eliminardocs);
+                                            } else if (opdocs == 3) {
+                                                JOptionPane.showMessageDialog(null, "Regresando....");
+                                            }
+                                        }while(opdocs!=3);
                                         empresa.addEmpleado(square);
                                     }
                                     else if(puesto.equalsIgnoreCase("Servicio Profesional")){
                                         months = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite la cantidad de meses de contrato: "));
                                         ServicioProfesional job = new ServicioProfesional(nombre, puesto, salario, months);
+                                        do {
+                                            opdocs = Byte.parseByte(JOptionPane.showInputDialog(null, "1. Agregar Documento. \n 2. Eliminar Documento. \n 3. Salir. \n Opcion: "));
+                                            if (opdocs == 1) {
+                                                document = JOptionPane.showInputDialog(null, "Digite su documento de identidad: ");
+                                                number = JOptionPane.showInputDialog(null, "Digite su numero: ");
+                                                Documento docs = new Documento(document, number);
+                                                job.addDocumento(docs);
+                                                
+                                            } else if (opdocs == 2) {
+                                                eliminardocs = JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar: ");
+                                                job.removeDocumento(eliminardocs);
+                                            } else if (opdocs == 3) {
+                                                JOptionPane.showMessageDialog(null, "Regresando....");
+                                            }
+                                        }while(opdocs!=3);
                                         empresa.addEmpleado(job);
-                                    }
-                                    opdocs = Byte.parseByte(JOptionPane.showInputDialog(null, "1. Agregar Documento. \n 2. Eliminar Documento. \n 3. Salir. \n Opcion: "));
-                                    if(opdocs == 1){
-                                        document = JOptionPane.showInputDialog(null, "Digite su documento de identidad: ");
-                                        number = JOptionPane.showInputDialog(null, "Digite su numero: ");
-                                        Documento docs = new Documento(document, number);
-
-                                    }
-                                    else if(opdocs == 2){
-                                         JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar: ");
-                                         
-                                    }
-                                    else if(opdocs == 3){
-                                        JOptionPane.showMessageDialog(null, "Regresando....");
                                     }
                                     try{
                                         if(!verificarNombre(nombre)){
