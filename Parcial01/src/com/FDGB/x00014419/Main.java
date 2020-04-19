@@ -136,79 +136,106 @@ public static void main(String[] args) {
                                 }
                             }while(!verificacion);
                             verificacion = false;
-
                             PlazaFija empleadoPlazaFija = new PlazaFija(nombre, puesto, salario, extensión);
                             int documentosIngresados = 0;
-                            do{
-                                opDocs = Byte.parseByte(JOptionPane.showInputDialog(null, menuDocs()));
-                                switch (opDocs){
-                                    case 0:
-                                        for(Documento a:empleadoPlazaFija.getDocumentos()){
-                                            documentosIngresados++;
-                                        }
-                                        if(documentosIngresados >0){
-                                            empresa.addEmpleado(empleadoPlazaFija);
-                                            JOptionPane.showMessageDialog(null,"Empleado Agregado\nRegresando al menu...");
-                                        }
-                                        else{
-                                            JOptionPane.showMessageDialog(null,"Debe de ingresar un documento obligatoriamente...");
-                                            opDocs=1;
-                                        }
-                                        break;
-                                    case 1:
-
-                                        //Ingreso y manejo de excepciones de tipo de documento
-                                        do{
-                                            tipoDocumento = JOptionPane.showInputDialog(null, "Digite el tipo de documento");
-                                            if(tipoDocumento == null){
-                                                throw new CancelButtonException("Regresando...");
-                                            }
-                                            try{
-                                                if(!documentosSinRepetición(empleadoPlazaFija.getDocumentos(),tipoDocumento) || !OnlyCharactersAndNumbers(tipoDocumento) || tipoDocumento.isEmpty()){
-                                                    throw new WrongTypeOfDocumentException("Tipo de documento inválido!");
+                                do{
+                                    try{
+                                    opDocs = Byte.parseByte(JOptionPane.showInputDialog(null, menuDocs()));
+                                    try{
+                                        switch (opDocs){
+                                            case 0:
+                                                for(Documento a:empleadoPlazaFija.getDocumentos()){
+                                                    documentosIngresados++;
                                                 }
-                                                verificacion=true;
-                                            }
-                                            catch(WrongTypeOfDocumentException exc){
-                                                JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
-                                            }
-                                        }while(!verificacion);
-                                        verificacion = false;
-
-                                        //Ingreso y manejo de excepciones de numero de documento
-                                        do{
-                                            númeroDocumento = JOptionPane.showInputDialog(null, "Digite su número de "+tipoDocumento);
-                                            if(númeroDocumento == null){
-                                                throw new CancelButtonException("Regresando...");
-                                            }
-                                            try{
-                                                if(!OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
-                                                    throw new WrongNumberOfDocumentException("número de "+tipoDocumento+" inválido!");
+                                                if(documentosIngresados >0){
+                                                    empresa.addEmpleado(empleadoPlazaFija);
+                                                    JOptionPane.showMessageDialog(null,"Empleado Agregado\nRegresando al menu...");
                                                 }
-                                                verificacion=true;
-                                            }
-                                            catch(WrongNumberOfDocumentException exc){
-                                                JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
-                                            }
-                                        }while(!verificacion);
+                                                else{
+                                                    JOptionPane.showMessageDialog(null,"Debe de ingresar un documento obligatoriamente...");
+                                                    opDocs=1;
+                                                }
+                                                break;
+                                            case 1:
+                                                //Ingreso y manejo de excepciones de tipo de documento
+                                                do{
+                                                    tipoDocumento = JOptionPane.showInputDialog(null, "Digite el tipo de documento");
+                                                    if(tipoDocumento == null){
+                                                        throw new CancelButtonException("Regresando...");
+                                                    }
+                                                    try{
+                                                        if(!documentosSinRepetición(empleadoPlazaFija.getDocumentos(),tipoDocumento) || !OnlyCharactersAndNumbers(tipoDocumento) || tipoDocumento.isEmpty()){
+                                                            throw new WrongTypeOfDocumentException("Tipo de documento inválido!");
+                                                        }
+                                                        verificacion=true;
+                                                    }
+                                                    catch(WrongTypeOfDocumentException exc){
+                                                        JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                                                    }
+                                                }while(!verificacion);
+                                                verificacion = false;
+
+                                                //Ingreso y manejo de excepciones de numero de documento
+                                                do{
+                                                    númeroDocumento = JOptionPane.showInputDialog(null, "Digite su número de "+tipoDocumento);
+                                                    if(númeroDocumento == null){
+                                                        throw new CancelButtonException("Regresando...");
+                                                    }
+                                                    try{
+                                                        if(!OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
+                                                            throw new WrongNumberOfDocumentException("número de "+tipoDocumento+" inválido!");
+                                                        }
+                                                        verificacion=true;
+                                                    }
+                                                    catch(WrongNumberOfDocumentException exc){
+                                                        JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                                                    }
+                                                }while(!verificacion);
+                                                verificacion = false;
+                                                Documento nuevoDocumento = new Documento(tipoDocumento, númeroDocumento);
+                                                empleadoPlazaFija.addDocumento(nuevoDocumento);
+                                                break;
+                                            case 2:
+                                                nombreDocumentoEliminar = JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar");
+                                                empleadoPlazaFija.removeDocumento(nombreDocumentoEliminar);
+                                                break;
+                                            default:
+                                                try{
+                                                    if(opDocs > 2 || opDocs < 0){
+                                                        throw new OutOfLimitsException("Opción Inválida!, ingresar un número entre 0 y 2");
+                                                    }
+                                                }
+                                                catch (OutOfLimitsException exc){
+                                                    JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                                                }
+                                                break;
+                                        }
+                                    }
+                                    catch(NullPointerException exc){
+                                        JOptionPane.showMessageDialog(null,"Regresando...");
+                                    }
+                                    catch(CancelButtonException exc){
+                                        JOptionPane.showMessageDialog(null, exc.getMessage());
+                                    }
+                                    finally{
                                         verificacion = false;
-                                        Documento nuevoDocumento = new Documento(tipoDocumento, númeroDocumento);
-                                        empleadoPlazaFija.addDocumento(nuevoDocumento);
-                                        break;
-                                    case 2:
-                                        nombreDocumentoEliminar = JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar");
-                                        empleadoPlazaFija.removeDocumento(nombreDocumentoEliminar);
-                                        break;
-                                    default:
-                                        try{
-                                            if(opDocs > 2 || opDocs < 0){
-                                                throw new OutOfLimitsException("Opción Inválida!, ingresar un número entre 0 y 2");
-                                            }
-                                        }
-                                        catch (OutOfLimitsException exc){
-                                            JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
-                                        }
-                                        break;
+                                    }
+                                }
+                                catch(NullPointerException exc){
+                                    JOptionPane.showMessageDialog(null,"Regresando...");
+                                }
+                                catch (NumberFormatException exc){
+                                    if(exc.getMessage().equals("null")){
+                                        JOptionPane.showMessageDialog(null, "Regresando....");
+                                        opDocs=0;
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(null, "Opción inválida!, ingresar un número",null, JOptionPane.ERROR_MESSAGE);
+                                        opDocs=1;
+                                    }
+                                }
+                                finally{
+                                    verificacion = false;
                                 }
                             }while(opDocs!=0);
                         }
@@ -239,76 +266,106 @@ public static void main(String[] args) {
                             ServicioProfesional empleadoServicioProfesional = new ServicioProfesional(nombre, puesto, salario, meses);
                             int documentosIngresados = 0;
                             do{
-                                opDocs = Byte.parseByte(JOptionPane.showInputDialog(null, menuDocs()));
-                                switch (opDocs){
-                                    case 0:
-                                        for(Documento a:empleadoServicioProfesional.getDocumentos()){
-                                            documentosIngresados++;
-                                        }
-                                        if(documentosIngresados >0){
-                                            empresa.addEmpleado(empleadoServicioProfesional);
-                                            JOptionPane.showMessageDialog(null,"Empleado Agregado\nRegresando al menu...");
-                                        }
-                                        else{
-                                            JOptionPane.showMessageDialog(null,"Debe de ingresar un documento obligatoriamente...");
-                                            opDocs=1;
-                                        }
-                                        break;
-                                    case 1:
-
-                                        //Ingreso y manejo de excepciones de tipo de documento
-                                        do{
-                                            tipoDocumento = JOptionPane.showInputDialog(null, "Digite el tipo de documento");
-                                            if(tipoDocumento == null){
-                                                throw new CancelButtonException("Regresando...");
-                                            }
-                                            try{
-                                                if(!OnlyCharactersAndNumbers(tipoDocumento) || tipoDocumento.isEmpty()){
-                                                    throw new WrongTypeOfDocumentException("Tipo de documento inválido!");
+                                try{
+                                    opDocs = Byte.parseByte(JOptionPane.showInputDialog(null, menuDocs()));
+                                    try{
+                                        switch (opDocs){
+                                            case 0:
+                                                for(Documento a:empleadoServicioProfesional.getDocumentos()){
+                                                    documentosIngresados++;
                                                 }
-                                                verificacion=true;
-                                            }
-                                            catch(WrongTypeOfDocumentException exc){
-                                                JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
-                                            }
-                                        }while(!verificacion);
-                                        verificacion = false;
-
-                                        //Ingreso y manejo de excepciones de numero de documento
-                                        do{
-                                            númeroDocumento = JOptionPane.showInputDialog(null, "Digite su número de "+ tipoDocumento);
-                                            if(númeroDocumento == null){
-                                                throw new CancelButtonException("Regresando...");
-                                            }
-                                            try{
-                                                if(!OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
-                                                    throw new WrongNumberOfDocumentException("número de "+tipoDocumento+" inválido!");
+                                                if(documentosIngresados >0){
+                                                    empresa.addEmpleado(empleadoServicioProfesional);
+                                                    JOptionPane.showMessageDialog(null,"Empleado Agregado\nRegresando al menu...");
                                                 }
-                                                verificacion=true;
-                                            }
-                                            catch(WrongNumberOfDocumentException exc){
-                                                JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
-                                            }
-                                        }while(!verificacion);
+                                                else{
+                                                    JOptionPane.showMessageDialog(null,"Debe de ingresar un documento obligatoriamente...");
+                                                    opDocs=1;
+                                                }
+                                                break;
+                                            case 1:
+
+                                                //Ingreso y manejo de excepciones de tipo de documento
+                                                do{
+                                                    tipoDocumento = JOptionPane.showInputDialog(null, "Digite el tipo de documento");
+                                                    if(tipoDocumento == null){
+                                                        throw new CancelButtonException("Regresando...");
+                                                    }
+                                                    try{
+                                                        if(!OnlyCharactersAndNumbers(tipoDocumento) || tipoDocumento.isEmpty()){
+                                                            throw new WrongTypeOfDocumentException("Tipo de documento inválido!");
+                                                        }
+                                                        verificacion=true;
+                                                    }
+                                                    catch(WrongTypeOfDocumentException exc){
+                                                        JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                                                    }
+                                                }while(!verificacion);
+                                                verificacion = false;
+
+                                                //Ingreso y manejo de excepciones de numero de documento
+                                                do{
+                                                    númeroDocumento = JOptionPane.showInputDialog(null, "Digite su número de "+ tipoDocumento);
+                                                    if(númeroDocumento == null){
+                                                        throw new CancelButtonException("Regresando...");
+                                                    }
+                                                    try{
+                                                        if(!OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
+                                                            throw new WrongNumberOfDocumentException("número de "+tipoDocumento+" inválido!");
+                                                        }
+                                                        verificacion=true;
+                                                    }
+                                                    catch(WrongNumberOfDocumentException exc){
+                                                        JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                                                    }
+                                                }while(!verificacion);
+                                                verificacion = false;
+                                                Documento nuevoDocumento = new Documento(tipoDocumento, númeroDocumento);
+                                                empleadoServicioProfesional.addDocumento(nuevoDocumento);
+                                                break;
+                                            case 2:
+                                                nombreDocumentoEliminar = JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar: ");
+                                                empleadoServicioProfesional.removeDocumento(nombreDocumentoEliminar);
+                                                break;
+                                            default:
+                                                try{
+                                                    if(opDocs > 2 || opDocs < 0){
+                                                        throw new OutOfLimitsException("Opción Inválida!, ingresar un número entre 0 y 2");
+                                                    }
+                                                }
+                                                catch (OutOfLimitsException exc){
+                                                    JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                                                }
+                                                break;
+                                        }
+                                    }
+                                    catch(NullPointerException exc){
+                                        JOptionPane.showMessageDialog(null,"Regresando...");
+                                    }
+                                    catch(CancelButtonException exc){
+                                        JOptionPane.showMessageDialog(null, exc.getMessage());
+                                    }
+                                    finally{
                                         verificacion = false;
-                                        Documento nuevoDocumento = new Documento(tipoDocumento, númeroDocumento);
-                                        empleadoServicioProfesional.addDocumento(nuevoDocumento);
-                                        break;
-                                    case 2:
-                                        nombreDocumentoEliminar = JOptionPane.showInputDialog(null, "Digite el nombre del documento a eliminar: ");
-                                        empleadoServicioProfesional.removeDocumento(nombreDocumentoEliminar);
-                                        break;
-                                    default:
-                                        try{
-                                            if(opDocs > 2 || opDocs < 0){
-                                                throw new OutOfLimitsException("Opción Inválida!, ingresar un número entre 0 y 2");
-                                            }
-                                        }
-                                        catch (OutOfLimitsException exc){
-                                            JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
-                                        }
-                                        break;
+                                    }
                                 }
+                                catch(NullPointerException exc){
+                                    JOptionPane.showMessageDialog(null,"Regresando...");
+                                }
+                                catch (NumberFormatException exc){
+                                    if(exc.getMessage().equals("null")){
+                                        JOptionPane.showMessageDialog(null, "Regresando....");
+                                        opDocs=0;
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(null, "Opción inválida!, ingresar un número",null, JOptionPane.ERROR_MESSAGE);
+                                        opDocs=1;
+                                    }
+                                }
+                                finally{
+                                    verificacion = false;
+                                }
+
                             }while(opDocs!=0);
                         }
                     }
@@ -323,28 +380,125 @@ public static void main(String[] args) {
                     }
                     break;
                 case 2:
-                    nombre = JOptionPane.showInputDialog(null, "Escribe el nombre del Empleado a despedir");
-                    empresa.quitEmpleado(nombre);
+                    try{
+                        do{
+                            nombre = JOptionPane.showInputDialog(null, "Digite el nombre del empleado a despedir");
+                            if(nombre == null){
+                                throw new CancelButtonException("Regresando...");
+                            }
+                            try{
+                                if(!OnlyCharacters(nombre) || nombre.isEmpty()){
+                                    throw new WrongNameException("Nombre inválido!");
+                                }
+                                verificacion=true;
+                            }
+                            catch(WrongNameException exc){
+                                JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                            }
+                        }while(!verificacion);
+                        verificacion = false;
+
+                        empresa.quitEmpleado(nombre);
+                    }
+                    catch(NullPointerException exc){
+                        JOptionPane.showMessageDialog(null,"Regresando...");
+                    }
+                    catch(CancelButtonException exc){
+                        JOptionPane.showMessageDialog(null, exc.getMessage());
+                    }
+                    finally{
+                        verificacion = false;
+                    }
                     break;
                 case 3:
                     int cont = 0;
+                    boolean existe = false;
                     JOptionPane.showMessageDialog(null,"Lista de empleados de la empresa " + empresa.getNombre());
                     for(Empleado aux:empresa.getPlanilla()){
+                        existe=true;
                         cont++;
-                        String cadena="\0";
+                        String cadena = "\0";
                         for(Documento a:aux.getDocumentos()){
                             cadena+=a.getNombre()+": "+a.getNumero()+"\n";
                         }
                         if(aux instanceof PlazaFija){
-                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: "+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión());
+                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión());
                         }
                         else if(aux instanceof ServicioProfesional){
-                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+"Salario: "+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses());
+                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses());
                         }
+                    }
+                    if(existe == false){
+                        JOptionPane.showMessageDialog(null, "Empleados no existentes");
                     }
                     break;
                 case 4:
-                    JOptionPane.showMessageDialog(null, "Calculando sueldo: ");
+                    int n;
+                    String cadena = "\0";
+                    boolean calculado = false;
+                    int id = 0;
+                    try{
+                        do{
+                            nombre = JOptionPane.showInputDialog(null, "Digite el nombre del empleado");
+                            if(nombre == null){
+                                throw new CancelButtonException("Regresando...");
+                            }
+                            try{
+                                if(!OnlyCharacters(nombre) || nombre.isEmpty()){
+                                    throw new WrongNameException("Nombre inválido!");
+                                }
+                                verificacion=true;
+                            }
+                            catch(WrongNameException exc){
+                                JOptionPane.showMessageDialog(null, exc.getMessage(),null, JOptionPane.ERROR_MESSAGE);
+                            }
+                        }while(!verificacion);
+                        verificacion = false;
+
+                        for(Empleado aux:empresa.getPlanilla()){
+                            if(aux.getNombre().equalsIgnoreCase(nombre) && calculado == false){
+                                for(Documento a:aux.getDocumentos()){
+                                    cadena+=a.getNombre()+": "+a.getNumero()+"\n";
+                                }
+                                if(aux instanceof PlazaFija){
+                                    n= JOptionPane.showConfirmDialog(null,"¿Cacular el sueldo del siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión(),null,JOptionPane.YES_NO_OPTION);
+                                    if(n == JOptionPane.YES_OPTION){
+                                        calculado = true;
+                                    }
+                                    else{
+                                    }
+                                }
+                                else if(aux instanceof ServicioProfesional){
+                                    n = JOptionPane.showConfirmDialog(null,"¿Cacular el sueldo del siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses(),null,JOptionPane.YES_NO_OPTION);
+                                    if(n == JOptionPane.YES_OPTION){
+                                        calculado = true;
+                                    }
+                                    else{
+                                    }
+                                }
+                            }
+                            if(calculado==false){
+                                id++;
+                            }
+                            else{
+                            }
+                        }
+                        if (calculado == true){
+                            JOptionPane.showMessageDialog(null,"Sueldo del empleado:"+ CalculadoraImpuestos.calcularPago(empresa.getPlanilla().get(id)));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null,"Empleado no existente");
+                        }
+                    }
+                    catch(NullPointerException exc){
+                        JOptionPane.showMessageDialog(null,"Regresando...");
+                    }
+                    catch(CancelButtonException exc){
+                        JOptionPane.showMessageDialog(null, exc.getMessage());
+                    }
+                    finally{
+                        verificacion = false;
+                    }
                     break;
                 case 5:
                     JOptionPane.showMessageDialog(null, CalculadoraImpuestos.mostrarTotales());

@@ -30,13 +30,13 @@ public class Empresa{
         int cont = 0;
         int n = 0;
         for (Empleado aux: planilla) {
-            if(aux.getNombre().equals(nombre)){
+            if(aux.getNombre().equalsIgnoreCase(nombre)){
                 String cadena="\0";
                 for(Documento a:aux.getDocumentos()){
                     cadena+=a.getNombre()+": "+a.getNumero()+"\n";
                 }
                 if(aux instanceof PlazaFija){
-                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: "+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión(),null,JOptionPane.YES_NO_OPTION);
+                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión(),null,JOptionPane.YES_NO_OPTION);
                     if(n == JOptionPane.YES_OPTION){
                         despedido = true;
                         break;
@@ -45,7 +45,7 @@ public class Empresa{
                     }
                 }
                 else if(aux instanceof ServicioProfesional){
-                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: "+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses(),null,JOptionPane.YES_NO_OPTION);
+                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: $"+aux.getPuesto()+"\n"+cadena+"Salario: "+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses(),null,JOptionPane.YES_NO_OPTION);
                     if(n == JOptionPane.YES_OPTION){
                         despedido = true;
                         break;
