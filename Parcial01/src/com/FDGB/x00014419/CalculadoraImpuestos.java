@@ -23,16 +23,16 @@ public final class CalculadoraImpuestos {
             double isss = 0.03 * a.getSalario();
             double restante = a.getSalario() - afp - isss;
             double renta = 0;
-            if(restante > 0.01 && restante < 472.00){
+            if(restante >= 0.01 && restante <= 472.00){
                 renta = 0;
             }
-            else if(restante > 472.01 && restante < 895.24){
+            else if(restante >= 472.01 && restante <= 895.24){
                 renta = 0.1 * (restante - 472) +17.67;
             }
-            else if(restante > 895.25 && restante < 2038.10){
+            else if(restante >= 895.25 && restante <= 2038.10){
                 renta = 0.2 * (restante - 895.24) +60;
             }
-            else if(restante > 2038.10){
+            else if(restante >= 2038.11){
                 renta = 0.3 * (restante - 2038.10) +288.57;
             }
             totalISSS += isss;
@@ -45,8 +45,8 @@ public final class CalculadoraImpuestos {
 
     public static String mostrarTotales(){
         return "Totales \n" +
-                "Total de ISSS: $" + totalISSS +"\n" +
-                "Total de AFP: $" + totalAFP + "\n" +
-                "Total de Renta: $" + totalRenta;
+                "Total de ISSS: $" + Math.round(totalISSS * 100.0)/100.0 + "\n" +
+                "Total de AFP: $" + Math.round(totalAFP * 100.0)/100.0 + "\n" +
+                "Total de Renta: $" + Math.round(totalRenta * 100.0)/100.0;
     }
 }

@@ -1,7 +1,9 @@
 package com.FDGB.x00014419;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarOutputStream;
 
 abstract class Empleado {
     protected String nombre = "\0";
@@ -32,7 +34,23 @@ abstract class Empleado {
     }
 
     public void removeDocumento(String a){
-        documentos.removeIf(s -> (s.getNombre().equals(a)));
+        int cont =0;
+        boolean aux2 = false;
+        for(Documento aux: documentos ){
+            if(aux.getNombre().equals(a)){
+                aux2 = true;
+            }
+            if(!aux2){
+                cont++;
+            }
+        }
+        if(!aux2){
+            JOptionPane.showMessageDialog(null, "Documento inexistente!");
+        }
+        else{
+            documentos.remove(cont);
+            JOptionPane.showMessageDialog(null, "Documento Eliminado");
+        }
     }
 
     public double getSalario() {

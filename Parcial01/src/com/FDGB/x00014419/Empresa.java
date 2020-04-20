@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Empresa{
-    private String nombre;
+    private String nombre = "\0";
     private List<Empleado> planilla = new ArrayList<Empleado>();
 
     //Constructor
@@ -36,7 +36,7 @@ public class Empresa{
                     cadena+=a.getNombre()+": "+a.getNumero()+"\n";
                 }
                 if(aux instanceof PlazaFija){
-                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión(),null,JOptionPane.YES_NO_OPTION);
+                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+Math.round(aux.getSalario() *100.0)/100.0+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión(),null,JOptionPane.YES_NO_OPTION);
                     if(n == JOptionPane.YES_OPTION){
                         despedido = true;
                         break;
@@ -45,7 +45,7 @@ public class Empresa{
                     }
                 }
                 else if(aux instanceof ServicioProfesional){
-                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: $"+aux.getPuesto()+"\n"+cadena+"Salario: "+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses(),null,JOptionPane.YES_NO_OPTION);
+                    n= JOptionPane.showConfirmDialog(null,"¿Quieres despedir el siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: $"+aux.getPuesto()+"\n"+cadena+"Salario: "+Math.round(aux.getSalario() *100.0)/100.0+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses(),null,JOptionPane.YES_NO_OPTION);
                     if(n == JOptionPane.YES_OPTION){
                         despedido = true;
                         break;

@@ -1,8 +1,8 @@
 package com.FDGB.x00014419;
 
 public class Documento{
-    private String nombre;
-    private String numero;
+    private String nombre = "\0";
+    private String numero = "\0";
 
     //Constructor
     public Documento(String nombre, String numero){

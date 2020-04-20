@@ -182,7 +182,7 @@ public static void main(String[] args) {
                                                         throw new CancelButtonException("Regresando...");
                                                     }
                                                     try{
-                                                        if(!OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
+                                                        if(!numeroDocumentosSinRepetición(empresa.getPlanilla(), tipoDocumento, númeroDocumento) || !OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
                                                             throw new WrongNumberOfDocumentException("número de "+tipoDocumento+" inválido!");
                                                         }
                                                         verificacion=true;
@@ -310,7 +310,7 @@ public static void main(String[] args) {
                                                         throw new CancelButtonException("Regresando...");
                                                     }
                                                     try{
-                                                        if(!OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
+                                                        if(!numeroDocumentosSinRepetición(empresa.getPlanilla(), tipoDocumento, númeroDocumento) || !OnlyNumbers(númeroDocumento) || númeroDocumento.isEmpty()){
                                                             throw new WrongNumberOfDocumentException("número de "+tipoDocumento+" inválido!");
                                                         }
                                                         verificacion=true;
@@ -422,10 +422,10 @@ public static void main(String[] args) {
                             cadena+=a.getNombre()+": "+a.getNumero()+"\n";
                         }
                         if(aux instanceof PlazaFija){
-                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión());
+                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+Math.round(aux.getSalario() *100.0)/100.0+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión());
                         }
                         else if(aux instanceof ServicioProfesional){
-                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses());
+                            JOptionPane.showMessageDialog(null,"Empleado "+cont+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+Math.round(aux.getSalario() *100.0)/100.0+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses());
                         }
                     }
                     if(existe == false){
@@ -461,7 +461,7 @@ public static void main(String[] args) {
                                     cadena+=a.getNombre()+": "+a.getNumero()+"\n";
                                 }
                                 if(aux instanceof PlazaFija){
-                                    n= JOptionPane.showConfirmDialog(null,"¿Cacular el sueldo del siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión(),null,JOptionPane.YES_NO_OPTION);
+                                    n= JOptionPane.showConfirmDialog(null,"¿Cacular el sueldo del siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+Math.round(aux.getSalario() *100.0)/100.0+"\n"+"Extensión: "+((PlazaFija) aux).getExtensión(),null,JOptionPane.YES_NO_OPTION);
                                     if(n == JOptionPane.YES_OPTION){
                                         calculado = true;
                                     }
@@ -469,7 +469,7 @@ public static void main(String[] args) {
                                     }
                                 }
                                 else if(aux instanceof ServicioProfesional){
-                                    n = JOptionPane.showConfirmDialog(null,"¿Cacular el sueldo del siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+aux.getSalario()+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses(),null,JOptionPane.YES_NO_OPTION);
+                                    n = JOptionPane.showConfirmDialog(null,"¿Cacular el sueldo del siguiente empleado?"+"\n"+"Nombre: "+aux.getNombre()+"\n"+"Puesto: "+aux.getPuesto()+"\n"+cadena+"Salario: $"+Math.round(aux.getSalario() *100.0)/100.0+"\n"+"Meses: "+((ServicioProfesional) aux).getMeses(),null,JOptionPane.YES_NO_OPTION);
                                     if(n == JOptionPane.YES_OPTION){
                                         calculado = true;
                                     }
@@ -484,7 +484,7 @@ public static void main(String[] args) {
                             }
                         }
                         if (calculado == true){
-                            JOptionPane.showMessageDialog(null,"Sueldo del empleado:"+ CalculadoraImpuestos.calcularPago(empresa.getPlanilla().get(id)));
+                            JOptionPane.showMessageDialog(null,"Sueldo del empleado:"+ Math.round(CalculadoraImpuestos.calcularPago(empresa.getPlanilla().get(id))) * 100.0 /100.0);
                         }
                         else{
                             JOptionPane.showMessageDialog(null,"Empleado no existente");
@@ -592,6 +592,17 @@ public static void main(String[] args) {
            if(a.getNombre().equals(nombre)){
                return false;
            }
+        }
+        return true;
+    }
+
+    private static boolean numeroDocumentosSinRepetición(List<Empleado> empleados, String nombre, String número){
+        for(Empleado a: empleados){
+            for(Documento b: a.getDocumentos()){
+                if(b.getNombre().equals(nombre) && b.getNumero().equals(número)){
+                    return false;
+                }
+            }
         }
         return true;
     }
